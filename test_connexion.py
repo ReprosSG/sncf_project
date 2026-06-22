@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.getOrCreate()
 
-table_name = "adb_sncf_project_remy.default.regularite_mensuelle_tgv_aqst"
+table_name = "default.regularite_mensuelle_tgv_aqst"
 
 print(f"Lecture directe de la table catalogue : {table_name}")
 
