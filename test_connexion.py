@@ -2,23 +2,13 @@ from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.getOrCreate()
 
-storage_account_name = "stsncfdataremy"
+table_name = "adb_sncf_project_remy.default.regularite_mensuelle_tgv_aqst"
 
-try:
-    spark.conf.unset(f"fs.azure.account.key.{storage_account_name}.dfs.core.windows.net")
-    print("🧹 Mémoire de session nettoyée (configuration fantôme effacée) !")
-except Exception:
-    pass
+print(f"Lecture directe de la table catalogue : {table_name}")
 
-path_bronze = f"abfss://datalake@{storage_account_name}.dfs.core.windows.net/1-bronze/sncf_historique/regularite-mensuelle-tgv-aqst.csv"
+df = spark.read.table(table_name)
 
-print(f"Tentative de lecture directe du fichier : {path_bronze}")
+print("Le moteur Serverless a chargé les données SNCF depuis le catalogue !")
 
-df = spark.read.format("csv") \
-    .option("header", "true") \
-    .option("sep", ";") \
-    .load(path_bronze)
-
-print("Le calcul Serverless a réussi à lire le Data Lake.")
 
 df.show(5)
