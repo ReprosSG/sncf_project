@@ -13,6 +13,6 @@ storage_account_key = dbutils.secrets.get(scope=secret_scope_name, key=secret_ke
 spark.conf.set(f"fs.azure.account.key.{storage_account_name}.dfs.core.windows.net",storage_account_key)
 print("Connexion etablie avec Datalake.")
 
-path_bronze = f"abfss://stsncfdataremy.blob.core.windows.net/datalake/1-bronze/sncf_historique/regularite-mensuelle-tgv-aqst.csv"
+path_bronze = f"abfss://datalake@{storage_account_name}.dfs.core.windows.net/1-bronze/sncf_historique/regularite-mensuelle-tgv-aqst.csv"
 print(f"Voici le chemin du fichier {path_bronze}")
 print("En atttente de l'analyse du fichier CSV...")
