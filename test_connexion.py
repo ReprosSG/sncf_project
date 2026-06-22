@@ -1,4 +1,5 @@
 from pyspark.sql import SparkSession
+from databricks.sdk.runtime import dbutils
 
 spark = SparkSession.builder.getOrCreate()
 
