@@ -4,7 +4,7 @@ from databricks.sdk.runtime import dbutils
 spark = SparkSession.builder.getOrCreate()
 
 storage_account_name = "stsncfdataremy"
-secret_scope_name = "azure_vault"
+secret_scope_name = "azure-vault"
 secret_key_name = "datalake-access-key"
 
 print("Récupération de la clé d'accès depuis la key vault...")
