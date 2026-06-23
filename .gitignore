@@ -224,3 +224,5 @@ __marimo__/
 
 
 .databricks
+
+.DS_store
