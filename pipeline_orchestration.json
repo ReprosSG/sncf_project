@@ -1,0 +1,78 @@
+{
+    "name": "pl_sncf_medallion_orchestration",
+    "properties": {
+        "activities": [
+            {
+                "name": "Notebook_Silver",
+                "type": "DatabricksNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "Verification_Fichiers_Landing",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Users/remy.queny@etu.uca.fr/pipeline_silver"
+                },
+                "linkedServiceName": {
+                    "referenceName": "ls_databricks_sncf",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Notebook_Gold",
+                "type": "DatabricksNotebook",
+                "dependsOn": [
+                    {
+                        "activity": "Notebook_Silver",
+                        "dependencyConditions": [
+                            "Succeeded"
+                        ]
+                    }
+                ],
+                "policy": {
+                    "timeout": "0.12:00:00",
+                    "retry": 0,
+                    "retryIntervalInSeconds": 30,
+                    "secureOutput": false,
+                    "secureInput": false
+                },
+                "userProperties": [],
+                "typeProperties": {
+                    "notebookPath": "/Users/remy.queny@etu.uca.fr/pipeline_gold"
+                },
+                "linkedServiceName": {
+                    "referenceName": "ls_databricks_sncf",
+                    "type": "LinkedServiceReference"
+                }
+            },
+            {
+                "name": "Verification_Fichiers_Landing",
+                "type": "Validation",
+                "dependsOn": [],
+                "userProperties": [],
+                "typeProperties": {
+                    "dataset": {
+                        "referenceName": "ds_sncf_landing_csv",
+                        "type": "DatasetReference"
+                    },
+                    "timeout": "0.00:05:00",
+                    "sleep": 10
+                }
+            }
+        ],
+        "annotations": [],
+        "lastPublishTime": "2026-06-25T17:22:14Z"
+    },
+    "type": "Microsoft.DataFactory/factories/pipelines"
+}
