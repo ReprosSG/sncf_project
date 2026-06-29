@@ -219,6 +219,7 @@ __marimo__/
 
 
 *.json
+!pipeline_orchestration.json
 *.csv
 *.parquet
 
