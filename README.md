@@ -57,8 +57,8 @@ Un pipeline CI est configuré (`.github/workflows/ci.yml`) pour agir comme une "
 
 > L'architecture globale, la logique d'orchestration (ADF) et les scripts de transformation PySpark sont **100 % finalisés et validés**. 
 > 
-> Cependant, en raison des restrictions strictes de quotas de calcul imposées par l'abonnement *Azure for Students* (limite globale fixée à 6 vCPUs ou littéralement 0 vCPU selon les régions) et de la saturation matérielle temporaire des machines de génération `v2/v3` sur la région *France Central*, l'exécution complète du pipeline se trouve actuellement en attente d'une fenêtre de disponibilité des ressources Cloud. 
+> Cependant, en raison des restrictions strictes de quotas de calcul imposées par l'abonnement *Azure for Students* (limite globale fixée à 6 vCPUs ou littéralement 0 vCPU selon les régions), l'exécution complète du pipeline est impossible. 
 >
-> C'est pourquoi le pipeline est présenté ici dans une configuration de **"Dry Run"**. Les dossiers `2-silver` et `3-gold` seront physiquement alimentés dès que l'allocation des nœuds de calcul Databricks sera autorisée par Azure. 
+> C'est pourquoi le pipeline est présenté ici dans une configuration de **"Dry Run"**.
 > 
-> *Cette contrainte technique a été une excellente opportunité de mettre en pratique la gestion réelle des quotas Cloud (QuotaExceeded vs SkuNotAvailable), l'optimisation des coûts de calcul et le troubleshooting d'infrastructure. C'est d'ailleurs cette contrainte budgétaire qui a motivé le passage d'une configuration manuelle (ClickOps) à une architecture "Blueprint" entièrement scriptée (Terraform) et sécurisée (CI).*
+> *Cette contrainte technique m'a permis de gérer les quotas Cloud, l'optimisation des coûts de calcul et le troubleshooting d'infrastructure. C'est donc cette contrainte budgétaire qui a motivé le passage d'une configuration manuelle (ClickOps) à une architecture "Blueprint" entièrement scriptée (Terraform) et sécurisée (CI).*
