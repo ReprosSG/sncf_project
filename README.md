@@ -6,8 +6,10 @@ Ce projet personnel a pour but de concevoir et d'orchestrer un pipeline de donn�
 ## Stack Technique
 * **Orchestration :** Azure Data Factory (ADF)
 * **Stockage :** Azure Data Lake Storage Gen2 (ADLS)
-* **Calcul & Transformation :** Azure Databricks 
+* **Calcul & Transformation :** Azure Databricks
 * **Langage :** Python / PySpark
+* **Infrastructure as Code (IaC) :** Terraform
+* **CI/CD & Qualité :** GitHub Actions, Flake8, nbqa
 
 ---
 
@@ -36,12 +38,27 @@ Le cœur du traitement de la donnée : nettoyage et structuration via Databricks
 
 ---
 
+## DevOps & Déploiement
+
+Pour garantir les standards de production, ce projet intègre une approche DevOps complète afin d'automatiser les tests et la gestion de l'infrastructure :
+
+### Infrastructure as Code (Terraform)
+L'ensemble des ressources Azure (Data Lake, dossiers Medallion, Data Factory, Databricks, Key Vault) est codifié via **Terraform**. 
+Le dossier `/infrastructure` contient le "Blueprint" du projet. Cette approche garantit de pouvoir déployer et détruire l'environnement à la demande, assurant une reproductibilité parfaite tout en maîtrisant les coûts cloud.
+
+### Intégration Continue (GitHub Actions)
+Un pipeline CI est configuré (`.github/workflows/ci.yml`) pour agir comme une "Quality Gate" à chaque push sur le dépôt GitHub :
+* **Validation Terraform :** Vérification automatique de la syntaxe et de la logique de l'infrastructure (`terraform validate`).
+* **Linting PySpark :** Analyse statique du code des Notebooks (`.ipynb`) via **nbqa** et **flake8** pour garantir un code propre, standardisé et sans variables non définies avant toute mise en production.
+
+---
+
 ## Note sur l'état du déploiement (Limites d'infrastructure)
 
 > L'architecture globale, la logique d'orchestration (ADF) et les scripts de transformation PySpark sont **100 % finalisés et validés**. 
 > 
-> Cependant, en raison des restrictions strictes de quotas de calcul imposées par l'abonnement *Azure for Students* (limite globale fixée à 6 vCPUs) et de la saturation matérielle temporaire des machines de génération `v2/v3` sur la région *France Central*, l'exécution complète du pipeline se trouve actuellement en attente d'une fenêtre de disponibilité des ressources Cloud. 
+> Cependant, en raison des restrictions strictes de quotas de calcul imposées par l'abonnement *Azure for Students* (limite globale fixée à 6 vCPUs ou littéralement 0 vCPU selon les régions) et de la saturation matérielle temporaire des machines de génération `v2/v3` sur la région *France Central*, l'exécution complète du pipeline se trouve actuellement en attente d'une fenêtre de disponibilité des ressources Cloud. 
 >
 > C'est pourquoi le pipeline est présenté ici dans une configuration de **"Dry Run"**. Les dossiers `2-silver` et `3-gold` seront physiquement alimentés dès que l'allocation des nœuds de calcul Databricks sera autorisée par Azure. 
 > 
-> *Cette contrainte technique a été une excellente opportunité de mettre en pratique la gestion réelle des quotas Cloud (QuotaExceeded vs SkuNotAvailable), l'optimisation des coûts de calcul (Single Node cluster) et le troubleshooting d'infrastructure.*
+> *Cette contrainte technique a été une excellente opportunité de mettre en pratique la gestion réelle des quotas Cloud (QuotaExceeded vs SkuNotAvailable), l'optimisation des coûts de calcul et le troubleshooting d'infrastructure. C'est d'ailleurs cette contrainte budgétaire qui a motivé le passage d'une configuration manuelle (ClickOps) à une architecture "Blueprint" entièrement scriptée (Terraform) et sécurisée (CI).*
