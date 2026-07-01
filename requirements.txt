@@ -1,0 +1,4 @@
+databricks_connect==17.3.10
+flake8
+nbqa
+pyspark
